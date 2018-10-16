@@ -1,0 +1,14 @@
+language: rust
+cache: cargo
+
+rust: stable
+
+sudo: false
+
+env:
+ global:
+   - RUST_BACKTRACE=full
+
+script:
+  - rustc -vV
+  - cargo test --all

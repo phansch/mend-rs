@@ -1,0 +1,8 @@
+-- Your SQL goes here
+
+CREATE TABLE repos (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT FALSE,
+  user_id BIGINT NOT NULL REFERENCES users(id)
+)

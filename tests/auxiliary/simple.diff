@@ -1,0 +1,24 @@
+diff --git a/src/main.rs b/src/main.rs
+index 350218f..b49c5ff 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -45,16 +45,16 @@ fn start() -> Result<()> {
+     )];
+ 
+     let opts = ReviewCommentOptions {
+-        body: "abc".to_string(),
++        body: "comment on cache: cargo?".to_string(),
+         commit_id: "62733ca4cc6e9716b566a809dc3dd88f8b94690e".to_string(),
+         path: ".travis.yml".to_string(),
+         // TODO: Figure out the positions
+-        position: 5,
++        position: 4,
+     };
+     let f = github
+         .repo(user, repo)
+         .pulls()
+-        .get(1)
++        .get(10)
+         .review_comments()
+         .create(&opts);
+     match core.run(f) {
