@@ -1,6 +1,7 @@
 #![allow(proc_macro_derive_resolution_fallback)] // This can be removed after diesel-1.4
 #![feature(uniform_paths)]
 #![feature(proc_macro_non_items)]
+#![feature(proc_macro_hygiene)]
 
 // https://github.com/diesel-rs/diesel/issues/1764
 #[macro_use]
