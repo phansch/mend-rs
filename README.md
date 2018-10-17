@@ -1,5 +1,7 @@
 # mend-rs
 
+[![Build Status](https://travis-ci.com/phansch/mend-rs.svg?branch=master)](https://travis-ci.com/phansch/mend-rs)
+
 ## Development
 
 Run `bin/setup` to install all dependencies, including docker and postgresql.
