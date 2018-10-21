@@ -1,20 +1,15 @@
 use std::{
-    collections::HashMap,
     fs::{create_dir_all, File},
     io::{Cursor, Read, Write},
     path::PathBuf,
-    result,
 };
 
 use ::{
     hubcaps::*,
     tempfile::TempDir,
     tokio_core::reactor::Core,
-    url::*,
     futures::Stream,
     log::*,
-    reqwest::header::{Headers, Authorization},
-    serde_derive::Deserialize,
 };
 
 use crate::{
@@ -24,12 +19,6 @@ use crate::{
 pub struct MendGithub {
     core: Core,
     token: String,
-}
-
-#[derive(Deserialize)]
-pub struct InstallationAccessToken {
-    pub token: String,
-    pub expires_at: String,
 }
 
 static USERAGENT: &'static str = "mend.rs - Rust Dev Tools as a service (phansch.net)";
@@ -43,32 +32,6 @@ impl MendGithub {
         }
     }
 
-
-    /// Authenticate as an installation
-    ///
-    /// See https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation
-    pub fn authenticate_installation(installation_id: i32, jwt: &str) -> InstallationAccessToken {
-        let url = format!(
-            "https://api.github.com/apps/installations/{}/access_tokens",
-            installation_id
-        );
-        let mut headers = Headers::new();
-        headers.set(Authorization(jwt.to_string()));
-        let client = reqwest::Client::new();
-
-        client.post(&url).send().unwrap().json().unwrap()
-    }
-
-    pub fn userinfo(&mut self) -> hubcaps::users::AuthenticatedUser {
-        let github = Github::new(
-            USERAGENT.to_string(),
-            Credentials::Token(self.token.to_string()),
-        );
-        let f = github.users().authenticated();
-        self.core
-            .run(f)
-            .expect("Could not get information of authenticated user")
-    }
 
     pub fn repos(&mut self, username: &str) -> Vec<hubcaps::repositories::Repo> {
         let github = Github::new(
@@ -158,68 +121,4 @@ impl MendGithub {
             }
         }
     }
-
-    /// Exchanges the given `code` for an `access_token`
-    ///
-    /// This is [Step 2][step_2] of the GitHub auth process.
-    /// The `code` is obtained from Step 1.
-    ///
-    /// [step_2]: https://developer.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#2-users-are-redirected-back-to-your-site-by-github
-    pub fn exchange_code_for_access_token(
-        client_id: &str,
-        client_secret: &str,
-        code: &str,
-        redirect_uri: &str,
-        state: &str,
-        gh_url: &str,
-    ) -> String {
-        let url = &format!("{}/login/oauth/access_token", gh_url);
-        let mut params = HashMap::new();
-        params.insert("client_id", client_id);
-        params.insert("client_secret", client_secret);
-        params.insert("code", code);
-        params.insert("redirect_uri", redirect_uri);
-        params.insert("state", state);
-
-        let client = reqwest::Client::new();
-        let mut res = client.post(url).form(&params).send().unwrap();
-        parse_access_token_response(&res.text().unwrap()).unwrap()
-    }
-}
-
-fn parse_access_token_response(response_text: &str) -> result::Result<String, String> {
-    let url =
-        Url::parse(&format!("http://someurl.com?{}", response_text)).expect("Could not parse URL");
-    let mut response_query_pairs = url.query_pairs();
-    let first_pair = response_query_pairs.next().unwrap();
-    if first_pair.0 == "error" {
-        if first_pair.1 == "redirect_uri_mismatch" {
-            Err("Incorrect redirect_uri".to_string())
-        } else {
-            Err(format!("Something else went wrong: {}", response_text))
-        }
-    } else {
-        Ok(first_pair.1.to_string())
-    }
-}
-
-#[test]
-fn test_parse_access_token_response_error() {
-    let response = "error=redirect_uri_mismatch&error_description=The+redirect_uri+MUST+match+the+registered+callback+URL+for+this+application.&error_uri=https%3A%2F%2Fdeveloper.
-github.com%2Fapps%2Fmanaging-oauth-apps%2Ftroubleshooting-authorization-request-errors%2F%23redirect-uri-mismatch2";
-    let result = parse_access_token_response(response);
-
-    assert_eq!(Err("Incorrect redirect_uri".to_string()), result);
-}
-
-#[test]
-fn test_parse_access_token_response_other_error() {
-    let response = "error=some_other_error&error_description=The+redirect_uri+MUST+match+the+registered+callback+URL+for+this+application.&error_uri=https%3A%2F%2Fdeveloper.
-github.com%2Fapps%2Fmanaging-oauth-apps%2Ftroubleshooting-authorization-request-errors%2F%23redirect-uri-mismatch2";
-    let result = parse_access_token_response(response);
-
-    assert_eq!(
-        Err(format!("Something else went wrong: {}", response)),
-        result
-    );
 }

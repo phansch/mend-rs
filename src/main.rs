@@ -1,25 +1,10 @@
-#![allow(proc_macro_derive_resolution_fallback)] // This can be removed after diesel-1.4
 #![feature(uniform_paths)]
-#![feature(proc_macro_non_items)]
 
-// https://github.com/diesel-rs/diesel/issues/1764
-#[macro_use]
-extern crate diesel;
-#[macro_use]
-extern crate diesel_migrations;
-
-mod auth;
-mod backend;
 mod clippy;
-mod db;
 mod diff;
-mod frontend;
 mod lint_report;
 mod mend_github;
-mod models;
 mod review_comment;
-mod schema;
-mod handlers;
 
 use std::env;
 
@@ -30,7 +15,6 @@ use crate::review_comment::ReviewComment;
 fn main() {
     init_sentry();
     sentry::integrations::env_logger::init(None, Default::default());
-    backend::run_server();
     // analyze_repo().unwrap();
 }
 
@@ -52,7 +36,7 @@ fn analyze_repo() -> Result<(), String> {
 }
 
 fn init_sentry() {
-    let _guard = sentry::init(env::get("SENTRY_URL"));
+    let _guard = sentry::init(env::var("SENTRY_URL").unwrap());
 
     env::set_var("RUST_BACKTRACE", "1");
 
