@@ -1,9 +1,16 @@
+---
 language: rust
 cache: cargo
 
 rust: nightly
 
 sudo: false
+
+
+branches:
+  only:
+    - staging
+    - trying
 
 env:
  global:
