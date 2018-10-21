@@ -7,30 +7,22 @@ authors = ["Philipp Hansch <dev@phansch.net>"]
 edition = '2018'
 
 [dependencies]
-actix-web = "0.7"
-actix = "0.7"
 hubcaps = { git = "https://github.com/softprops/hubcaps.git", branch = "master" }
 chrono = "0.4"
-diesel = { version = "1.0", features = ["postgres"] }
-diesel_migrations = "*"
 dotenv = "0.9.0"
 futures = "0.1.23"
 hyper = "*"
-jsonwebtoken = "5"
 tokio-core = "*"
 unidiff = "*"
 log = "0.4.0"
 env_logger = "0.5.12"
 rand = "0.5"
-maud = { git = "https://github.com/lfairy/maud", branch = "master", features = ["actix-web"] }
-openssl = { version = "0.10", features = ["vendored"] }
 url = "1.7.1"
 reqwest = "0.8"
 serde_json = "1.0"
 serde = "1.0"
 serde_derive = "1.0.70"
 sentry = "0.6.0"
-sentry-actix = "0.2.0"
 tempfile = "3"
 zip = "0.4"
 

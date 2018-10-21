@@ -4,25 +4,7 @@
 
 ## Development
 
-Run `bin/setup` to install all dependencies, including docker and postgresql.
-
-### Postgresql
-
-#### Open a console
-
-    sudo -u postgres psql
-
-### Running the docker container
-
-```shell
-docker run -t -p 4000:4000 mend
-```
-
-## Deployment
-
-```shell
-git push dokku
-```
+Run `bin/setup` to install all dependencies.
 
 ## Dokku/Server stuff
 
