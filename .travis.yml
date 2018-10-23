@@ -14,8 +14,8 @@ branches:
     - master
 
 env:
- global:
-   - RUST_BACKTRACE=full
+  global:
+    - RUST_BACKTRACE=full
 
 script:
   - rustc -vV
