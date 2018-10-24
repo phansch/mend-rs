@@ -5,7 +5,7 @@ cache: cargo
 rust: nightly
 addons:
   artifacts:
-    s3_region: "eu-central-1"
+    s3_region: "us-east-1"
     working_dir: target/release
     paths:
       - mend-rs
