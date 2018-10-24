@@ -6,7 +6,6 @@ rust: nightly
 
 sudo: false
 
-
 branches:
   only:
     - staging
@@ -20,3 +19,4 @@ env:
 script:
   - rustc -vV
   - cargo test --all
+  - cargo build --release
