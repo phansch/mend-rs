@@ -6,7 +6,9 @@ rust: nightly
 addons:
   artifacts:
     s3_region: "eu-central-1"
-    working_dir: target/release/mend-rs
+    working_dir: target/release
+    paths:
+      - mend-rs
 
 sudo: false
 
