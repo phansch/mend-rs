@@ -1,5 +1,3 @@
-cargo-features = ["edition"]
-
 [package]
 name = "mend-rs"
 version = "0.1.0"
@@ -10,6 +8,7 @@ edition = '2018'
 hubcaps = { git = "https://github.com/softprops/hubcaps.git", branch = "master" }
 chrono = "0.4"
 dotenv = "0.9.0"
+faktory = "0.10.0"
 futures = "0.1.23"
 hyper = "*"
 tokio-core = "*"

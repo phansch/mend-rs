@@ -3,19 +3,23 @@ language: rust
 cache: cargo
 
 rust: nightly
+addons:
+  artifacts:
+    s3_region: "eu-central-1"
 
 sudo: false
-
 
 branches:
   only:
     - staging
     - trying
+    - master
 
 env:
- global:
-   - RUST_BACKTRACE=full
+  global:
+    - RUST_BACKTRACE=full
 
 script:
   - rustc -vV
   - cargo test --all
+  - cargo build --release

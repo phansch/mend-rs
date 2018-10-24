@@ -1,0 +1,21 @@
+---
+version: '3.6'
+services:
+  faktory:
+    image: contribsys/faktory:latest
+    ports:
+      - "7419:7419"
+      - "7420:7420"
+    volumes:
+      - type: volume
+        source: faktory-data
+        target: /var/lib/faktory
+    environment:
+      # See: https://docs.docker.com/compose/compose-file/#environment
+      FAKTORY_PASSWORD:
+
+volumes:
+  faktory-data:
+  # - worker:
+  #     links:
+  #     - faktory
