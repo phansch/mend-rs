@@ -12,9 +12,7 @@ use ::{
     log::*,
 };
 
-use crate::{
-    review_comment::ReviewComment,
-};
+use crate::review_comment::ReviewComment;
 
 pub struct MendGithub {
     core: Core,

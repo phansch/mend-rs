@@ -1,6 +1,6 @@
 #![feature(uniform_paths)]
 
-pub use log::{info, error};
+pub use log::{error, info};
 
 pub mod clippy;
 pub mod diff;

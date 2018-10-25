@@ -10,9 +10,9 @@ use std::env;
 use std::io;
 
 use crate::diff::Diff;
-use faktory::ConsumerBuilder;
 use crate::mend_github::MendGithub;
 use crate::review_comment::ReviewComment;
+use faktory::ConsumerBuilder;
 
 fn main() {
     init_sentry();
@@ -21,7 +21,10 @@ fn main() {
 }
 
 fn start_faktory_consumer() {
-    println!("Starting Faktory consumer on {}", env::var("FAKTORY_URL").unwrap());
+    println!(
+        "Starting Faktory consumer on {}",
+        env::var("FAKTORY_URL").unwrap()
+    );
     let mut c = ConsumerBuilder::default();
     c.register("pull_request", |job| -> io::Result<()> {
         println!("received job: {:?}", job);
