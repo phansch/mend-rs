@@ -36,6 +36,9 @@ It should only comment on changed or added lines
 1. [ ] Run `RUSTFLAGS="-Z unstable-options --error-format=json" cargo +nightly clippy` in container
 1. [ ] Somehow get the json back? Maybe via web api? Or maybe through Filesystem?
 
+- mend-rs itself will be compiled on stable (#16)
+- mend-rs will require Rust nightly to be installed for json error format (#17)
+
 Check: https://firejail.wordpress.com/
 Check clippy-service for dokku/travis deploy setup
 
