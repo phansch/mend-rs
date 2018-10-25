@@ -21,6 +21,10 @@ script:
   - cargo test --all
   - cargo build --release
 
+before_deploy:
+  - mkdir $TRAVIS_BUILD_DIR/build_result
+  - mv $TRAVIS_BUILD_DIR/target/release/mend-rs $TRAVIS_BUILD_DIR/build_result/
+
 deploy:
   on:
     branch: master
@@ -30,5 +34,5 @@ deploy:
   bucket: $ARTIFACTS_BUCKET
   skip_cleanup: true
   acl: public_read
-  local_dir: $TRAVIS_BUILD_DIR/target/release/mend-rs
+  local_dir: $TRAVIS_BUILD_DIR/build_result/
   upload_dir: builds
