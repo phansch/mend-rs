@@ -32,18 +32,6 @@ impl MendGithub {
         }
     }
 
-
-    pub fn repos(&mut self, username: &str) -> Vec<hubcaps::repositories::Repo> {
-        let github = Github::new(
-            USERAGENT.to_string(),
-            Credentials::Token(self.token.to_string()),
-        );
-        let f = github.user_repos(username).iter(&Default::default()).collect();
-        self.core
-            .run(f)
-            .expect(&format!("Could not fetch the repos of user {}", username))
-    }
-
     pub fn download_archive(&mut self, user: &str, repo: &str, git_ref: &str) -> PathBuf {
         let tmp_dir = TempDir::new().expect("Could not create tempdir");
         let url = format!(

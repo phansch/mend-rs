@@ -1,6 +1,17 @@
 ---
 version: '3.6'
 services:
+  mend-rs:
+    build: .
+    environment:
+      SENTRY_URL:
+      FAKTORY_URL: tcp://faktory:7419
+    ports:
+      - "7419"
+    links:
+      - faktory
+    depends_on:
+      - faktory
   faktory:
     image: contribsys/faktory:latest
     ports:

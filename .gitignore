@@ -3,5 +3,3 @@
 .env
 *.private-key
 server-setup.sh
-Dockerfile
-.gitlab-ci.yml

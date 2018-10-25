@@ -7,15 +7,31 @@ mod mend_github;
 mod review_comment;
 
 use std::env;
+use std::io;
 
 use crate::diff::Diff;
+use faktory::ConsumerBuilder;
 use crate::mend_github::MendGithub;
 use crate::review_comment::ReviewComment;
 
 fn main() {
     init_sentry();
     sentry::integrations::env_logger::init(None, Default::default());
-    // analyze_repo().unwrap();
+    start_faktory_consumer();
+}
+
+fn start_faktory_consumer() {
+    println!("Starting Faktory consumer on {}", env::var("FAKTORY_URL").unwrap());
+    let mut c = ConsumerBuilder::default();
+    c.register("pull_request", |job| -> io::Result<()> {
+        println!("received job: {:?}", job);
+        analyze_repo().unwrap();
+        Ok(())
+    });
+    let mut c = c.connect(None).unwrap();
+    if let Err(e) = c.run(&["default"]) {
+        println!("worker failed: {}", e);
+    }
 }
 
 fn analyze_repo() -> Result<(), String> {
