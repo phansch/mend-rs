@@ -16,6 +16,3 @@ services:
 
 volumes:
   faktory-data:
-  # - worker:
-  #     links:
-  #     - faktory
