@@ -3,12 +3,6 @@ language: rust
 cache: cargo
 
 rust: nightly
-addons:
-  artifacts:
-    s3_region: "us-east-1"
-    working_dir: target/release
-    paths:
-      - mend-rs
 
 sudo: false
 
@@ -26,3 +20,15 @@ script:
   - rustc -vV
   - cargo test --all
   - cargo build --release
+
+deploy:
+  on:
+    branch: master
+  provider: s3
+  access_key_id: $ARTIFACTS_KEY
+  secret_access_key: $ARTIFACTS_SECRET
+  bucket: $ARTIFACTS_BUCKET
+  skip_cleanup: true
+  acl: public_read
+  local_dir: $HOME/mend-rs/target/release/mend-rs
+  upload_dir: builds
