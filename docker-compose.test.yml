@@ -1,0 +1,9 @@
+---
+# This file is only used in development and testing
+# It overrides the matching services defined in `./docker-compose.yml`
+version: '3.6'
+services:
+  mend-rs:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
