@@ -30,5 +30,5 @@ deploy:
   bucket: $ARTIFACTS_BUCKET
   skip_cleanup: true
   acl: public_read
-  local_dir: $HOME/mend-rs/target/release/mend-rs
+  local_dir: $TRAVIS_BUILD_DIR/target/release/mend-rs
   upload_dir: builds
