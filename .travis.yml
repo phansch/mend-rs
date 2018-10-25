@@ -23,7 +23,8 @@ script:
 
 before_deploy:
   - mkdir $TRAVIS_BUILD_DIR/build_result
-  - mv $TRAVIS_BUILD_DIR/target/release/mend-rs $TRAVIS_BUILD_DIR/build_result/mend-rs-$TRAVIS_COMMIT
+  - cp $TRAVIS_BUILD_DIR/target/release/mend-rs $TRAVIS_BUILD_DIR/mend-rs-master
+  - cp $TRAVIS_BUILD_DIR/target/release/mend-rs $TRAVIS_BUILD_DIR/build_result/mend-rs-$TRAVIS_COMMIT
 
 deploy:
   on:
