@@ -17,6 +17,7 @@ branches:
 env:
   global:
     - RUST_BACKTRACE=full
+    - OPENSSL_STATIC=1
 
 script:
   - rustc -vV
