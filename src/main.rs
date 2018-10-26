@@ -55,9 +55,11 @@ fn analyze_repo() -> Result<(), String> {
 }
 
 fn init_sentry() {
-    let _guard = sentry::init(env::var("SENTRY_URL").unwrap());
+    if let Ok(sentry_url) = env::var("SENTRY_URL") {
+        let _guard = sentry::init(sentry_url);
 
-    env::set_var("RUST_BACKTRACE", "1");
+        env::set_var("RUST_BACKTRACE", "1");
 
-    sentry::integrations::panic::register_panic_handler();
+        sentry::integrations::panic::register_panic_handler();
+    }
 }
