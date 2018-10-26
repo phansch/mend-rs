@@ -3,10 +3,12 @@ language: rust
 cache: cargo
 before_cache:
   - rm -rfv target/debug/.fingerprint/mend-rs-*
+  - rm -rfv target/debug/incremental/*
 
 rust: nightly
 
-sudo: false
+services:
+  - docker
 
 branches:
   only:
@@ -18,10 +20,17 @@ env:
   global:
     - RUST_BACKTRACE=full
     - OPENSSL_STATIC=1
+    - DOCKER_COMPOSE_VERSION=1.22.0
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
 
 script:
   - rustc -vV
-  - cargo test --all
+  - cargo test --all -- --nocapture
   - cargo build --release
 
 before_deploy:
