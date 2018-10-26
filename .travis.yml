@@ -3,6 +3,7 @@ language: rust
 cache: cargo
 before_cache:
   - rm -rfv target/debug/.fingerprint/mend-rs-*
+  - rm -rfv target/debug/incremental/*
 
 rust: nightly
 
