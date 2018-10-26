@@ -1,7 +1,9 @@
 FROM ubuntu:bionic
 MAINTAINER Philipp Hansch (https://github.com/phansch)
 
-RUN apt-get update && apt-get install -y libssl1.0.0
+RUN apt-get update && apt-get install -y \
+  libssl1.0.0 \
+  curl
 
 ENV RUST_LOG=info
 ENV RUST_BACKTRACE=full
